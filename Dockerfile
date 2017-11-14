@@ -32,7 +32,8 @@ RUN { \
 VOLUME /var/www/html
 
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s /usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
+RUN ln -s /usr/local/bin/docker-entrypoint.sh /entrypoint.sh \
+	&& chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
