@@ -17,8 +17,10 @@ Preinstalled:
 The container will use `/var/www/html` as wwwroot. So assume your actually wwwroot is `/path/to/your/wwwroot`, use the following command:
 
 ```shell
-docker run --name my_website -it --rm -v /path/to/your/wwwroot:/var/www/html jamesits/docker-easyphp:latest
+docker run --name my_website -itP --rm -v /path/to/your/wwwroot:/var/www/html jamesits/docker-easyphp:latest
 ```
+
+Then you can access your website at port 80.
 
 ## Caveats
 
