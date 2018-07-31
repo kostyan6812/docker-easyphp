@@ -1,16 +1,19 @@
 FROM php:7.2.8-apache-stretch
+LABEL maintainer="docker@public.swineson.me"
 
+# install the Apache2 modules we need
 RUN a2enmod rewrite expires headers substitute remoteip
 
 # install the PHP extensions we need
 RUN apt-get update \
 	&& apt-get upgrade -y \
-	&& apt-get install -y libpng12-dev libjpeg-dev zlib1g-dev libcurl4-gnutls-dev libldb-dev libldap-2.4-2 libldap2-dev libmcrypt-dev libfreetype6-dev less sudo\
+	&& apt-get install -y libpng-dev libjpeg-dev zlib1g-dev libcurl4-gnutls-dev libldb-dev libldap2-dev libmcrypt-dev libfreetype6-dev less sudo\
 	&& rm -rf /var/lib/apt/lists/* \
 	&& ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
 	&& ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr --with-freetype-dir=/usr \
 	&& docker-php-ext-install gd mysqli opcache zip bcmath pdo pdo_mysql curl mbstring ldap mcrypt
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
