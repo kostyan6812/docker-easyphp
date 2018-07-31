@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:7.2.8-apache-stretch
 
 RUN a2enmod rewrite expires headers substitute remoteip
 
