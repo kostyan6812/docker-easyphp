@@ -12,8 +12,9 @@ RUN apt-get update \
 	&& ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
 	&& ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr --with-freetype-dir=/usr \
-	&& docker-php-ext-install bcmath bz2 curl exif soap gd gettext json ldap mbstring mysqli opcache pdo pdo_mysql zip
-
+	&& docker-php-ext-install bcmath bz2 curl exif soap gd gettext json ldap mbstring mysqli opcache pdo pdo_mysql zip \
+	&& mkdir /var/run/mysqld \
+	&& chown -R mysql:mysql /var/run/mysqld
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
@@ -43,4 +44,4 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh /entrypoint.sh \
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
 EXPOSE 3306
-CMD ["mysqld"]
+CMD ["mysqld_safe"]
