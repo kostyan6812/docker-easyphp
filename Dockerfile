@@ -1,5 +1,5 @@
 FROM php:7.3.8-apache-stretch
-LABEL maintainer="docker@public.swineson.me"
+LABEL maintainer="kk@edubian.ru"
 
 # install the Apache2 modules we need
 RUN a2enmod rewrite expires headers substitute remoteip
