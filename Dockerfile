@@ -34,8 +34,9 @@ RUN { \
 
 VOLUME /var/www/html
 
-# install mariadb
-RUN apt-get install -y mariadb-server mariadb-client
+# install sql
+FROM mariadb
+
 
 
 COPY docker-entrypoint.sh /usr/local/bin/
