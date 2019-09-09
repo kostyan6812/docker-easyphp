@@ -1,4 +1,4 @@
-FROM php:7.3.8-apache-stretch
+FROM php:7.3.8-apache-stretch as builder
 LABEL maintainer="kk@edubian.ru"
 
 # install the Apache2 modules we need
@@ -7,7 +7,7 @@ RUN a2enmod rewrite expires headers substitute remoteip
 # install the PHP extensions we need
 RUN apt-get update \
 	&& apt-get upgrade -y \
-	&& apt-get install -y libxml2-dev libpng-dev libjpeg-dev zlib1g-dev libcurl4-gnutls-dev libldb-dev libldap2-dev libmcrypt-dev libfreetype6-dev libbz2-dev libzip-dev less sudo\
+	&& apt-get install -y libxml2-dev mariadb-client mariadb-server libpng-dev libjpeg-dev zlib1g-dev libcurl4-gnutls-dev libldb-dev libldap2-dev libmcrypt-dev libfreetype6-dev libbz2-dev libzip-dev less sudo\
 	&& rm -rf /var/lib/apt/lists/* \
 	&& ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so \
 	&& ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so \
@@ -34,15 +34,13 @@ RUN { \
 
 VOLUME /var/www/html
 
-# install sql
-FROM mariadb
-
-
-
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s /usr/local/bin/docker-entrypoint.sh /entrypoint.sh \
 	&& chmod +x /usr/local/bin/docker-entrypoint.sh
 
+
 # ENTRYPOINT resets CMD
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
+EXPOSE 3306
+CMD ["mysqld"]
