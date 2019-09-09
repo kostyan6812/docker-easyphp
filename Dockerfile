@@ -34,6 +34,10 @@ RUN { \
 
 VOLUME /var/www/html
 
+# install mariadb
+RUN apt-get install -y mariadb-server mariadb-client
+
+
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s /usr/local/bin/docker-entrypoint.sh /entrypoint.sh \
 	&& chmod +x /usr/local/bin/docker-entrypoint.sh
